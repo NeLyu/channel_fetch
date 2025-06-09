@@ -28,7 +28,15 @@ python src/main.py
 Prompt example:
 ```
 Type your query: Find me channels about watercolor painting
-SUMMARY
+Output:
+1. Aryan verma studios
+https://www.youtube.com/channel/UCP4JX0XS64fmC_wnITdPuow
+2. Yasmin Art Drawing
+https://www.youtube.com/channel/UCk1HnZpqA3HDHkiAbMnGFaA
+3. ART and LEARN
+https://www.youtube.com/channel/UC6__E-Qg9kZIDa8yMn8UDig
+
+In the realm of watercolor painting, **Aryan Verma Studios** stands out with a broad range of tutorials covering multiple mediums, catering to both beginners and advanced artists, while focusing on inspirational content. **Yasmin Art Drawing** emphasizes a more playful approach with creative DIY projects and BFF drawings, appealing particularly to younger audiences and casual art enthusiasts. In contrast, **ART and LEARN** targets families with its simple, accessible painting tutorials suitable for beginners, showcasing a variety of techniques, including watercolor. For viewers seeking a comprehensive yet exciting approach to watercolor and art, **Aryan Verma Studios** is ideal, while **Yasmin Art Drawing** is perfect for casual, fun art projects, and **ART and LEARN** is suited for those who want to engage children in artistic activities.
 ```
 
 ## ✅ Requirements
