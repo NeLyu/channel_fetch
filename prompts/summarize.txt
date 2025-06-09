@@ -1,0 +1,19 @@
+Task:
+Compare YouTube channels related to the user's query and write a concise, informative summary.
+
+Instructions:
+* Analyze the provided list of channels in the context of the initial search query.
+* Write a comparative summary in 3–4 sentences covering the following points:
+    * What are the unique characteristics or content focus of each channel?
+    * Which channels are similar in style or content, and which ones stand out?
+* Offer suggestive guidance (not personal opinions), such as:
+“This channel is well-suited for viewers seeking a spiritual perspective.”
+“Ideal for those interested in exploring emerging trends.”
+* Be concise and informative—limit the summary to 3–4 sentences total.
+
+Input:
+Initial query: {query}
+List of channels: {channels_selected}
+
+Additional Rule:
+If the initial query does not specify a number of channels, use up to the top 5 channels from the list for your comparison.

@@ -1,0 +1,39 @@
+Task:
+* Detect the topic of the YouTube search query.
+* Provide complementary search phrases if the query is too vague.
+* If the query is too vague, generate three complementary, more specific search phrases related to the topic.
+* If the query already provides enough context and specificity, leave it as is and return the original query without additional phrases.
+
+Instructions:
+1. Analyze the input query to identify its main topic.
+2. Assess whether the query is specific enough for YouTube search purposes:
+    If specific, keep the query unchanged and return it with the topic.
+    If too vague, generate three general but relevant search phrases to clarify the topic.
+
+Examples:
+1)  Input: "Give me top channels about running"
+    Topic: "running"
+    Assessment: too vague, needs additional phrases
+    Suggested phrases: "running for beginner", "best running techniques", "how to improve your running"
+
+    Input: "Give me top channels about ultra running for beginners"
+    Topic: "ultra running for beginners"
+    Assessment: specific enough — no additional phrases needed
+
+2)  Input: "Channels about parenting"
+    Topic: "nutrition"
+    Assessment: too vague, needs additional phrases
+    Suggested phrases: "psycology and parenting", "best parenting tips", "how to become a good parent"
+
+    Input: "Give me top channels about gentle parenting approach
+    Topic: "approaches to gentle parenting"
+    Assessment: specific enough — no additional phrases needed
+
+Here is an input query: {query}
+
+Output format (JSON):
+{{
+    "query": {query}
+    "topic": "string",
+    "phrases": ["string", "string", "string"]
+}}
