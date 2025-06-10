@@ -59,6 +59,3 @@ You will also need
 ### 👤 Author
 
 **Liubov Nesterenko**, [LinkedIn page](https://www.linkedin.com/in/liubov-nesterenko-851b4474/)
-
-📄 License
-This project is licensed under the MIT License.
