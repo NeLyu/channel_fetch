@@ -8,23 +8,24 @@ def build_youtube_client(api_key):
     return youtube
 
 
-def top_videos_by_keyword(youtube, key_word, max_results=10):
+def top_videos_by_keyword(youtube, key_word, max_results):
     video_results = youtube.search().list(
         part="snippet",
         q=key_word,
         type="video",
-        order="viewCount",
+        order="relevance",
         maxResults=max_results
         ).execute()
     
     video_titles = {}
     for item in video_results["items"]:
-        video_titles[item["snippet"]["channelTitle"]] = item["snippet"]["title"]
+        video_titles[item["snippet"]["channelTitle"]] = [item["snippet"]["title"], 
+                                                        item["id"]["videoId"]]
 
     return video_results, video_titles 
 
 
-def channels_by_keyword(youtube, key_word, max_results=10):
+def channels_by_keyword(youtube, key_word, max_results):
     request = youtube.search().list(
         part="snippet",
         maxResults=max_results,
@@ -92,6 +93,7 @@ def add_video_title_info(video_titles, sorted_channels):
     # print(video_titles.keys())
     for el in sorted_channels:
         channel_title = el["snippet"]["title"]
-        el["snippet"]["video_title"] = video_titles[channel_title]
+        el["snippet"]["video_title"] = video_titles[channel_title][0]
+        el["snippet"]["videoId"] = video_titles[channel_title][1]
 
     return sorted_channels
