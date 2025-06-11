@@ -13,8 +13,8 @@ def extract_channels(openai_output, youtube, n):
     openai_output = json.loads(remove_openai_additions(openai_output))
 
     if openai_output["phrases"] == []:
+        n = 30
         api_response, video_titles = yt.scrape_channels_through_api(youtube, openai_output["topic"], n)
-
         sorted_channels = yt.sort_channels(api_response)
         cleaned = yt.remove_duplicate_channels(sorted_channels)
         with_video_titles = yt.add_video_title_info(video_titles, cleaned)
@@ -45,7 +45,7 @@ def select_relevant_channels(sorted_channels, init_query, f, t, top_n=25):
 
     channels_selected = []
 
-    while len(channels_selected) < 3:
+    while len(channels_selected) < 1:
         for channel in sorted_channels[f:t]:
             if channel["snippet"]["title"] in unique_names:
                 # Check whether relevant
@@ -60,6 +60,8 @@ def select_relevant_channels(sorted_channels, init_query, f, t, top_n=25):
                     item["title"] = channel["snippet"]["title"]
                     item["url"] = f"https://www.youtube.com/channel/{channel['id']}"
                     item["description"] = channel["snippet"]["description"]
+                    item["video_title"] = channel["snippet"]["video_title"]
+                    item["videoId"] = f"https://www.youtube.com/watch?v={channel['snippet']['videoId']}"
                     item["statistics"] = channel["statistics"]
                     channels_selected.append(item)
                     unique_names.remove(channel["snippet"]["title"])
