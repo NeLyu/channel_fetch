@@ -10,43 +10,32 @@ import sys
 def main():
     load_dotenv()
     api_key = os.environ.get("YT_API_KEY")
-    youtube = build_youtube_client(api_key)
+    agent = ac.YTNavigatorAgent("", api_key)
 
-    query = input("Type your query: ")
-    
-    pt = load_prompt_template("process_query")
-    prompt_w_query = pt.format(query=query)
-    extended_query = ac.call_openai(prompt_w_query)
+    while True:
+        query = input("User: ")
+        agent.query = query
+        message = agent.make_text_msg("user", agent.query)
 
-    print("Extracting channels...")
-    n = 10
-    sorted_channels = ac.extract_channels(extended_query, youtube, n)
+        agent.memory.append(message)
 
-    print("Selecting only relevant channels...")
-    channels_selected = ac.select_relevant_channels(sorted_channels, query, 0, round(len(sorted_channels)/2))
+        func = agent.determine_function(agent.memory[-4:])
 
-    print("Summarizing...")
-    pt = load_prompt_template("summarize")
-    prompt_for_summary = pt.format(query=query, channels_selected=channels_selected)
-    summary = ac.call_openai(prompt_for_summary)
+        if func is None:
+            f_name = "general_query"
+        else:
+            f_name = func.name
+        
+        f = agent.functions_registry()[f_name]
 
-    top_to_show = 5
-    if len(channels_selected) < top_to_show:
-        top_to_show = len(channels_selected)
-    
-    print("Recommended channels:")
-    for i in range(top_to_show):
-        print(f"""{i + 1}. {channels_selected[i]["title"]}""")
-        print(channels_selected[i]["url"])
-        print(f"Treding video from the channel:")
-        print(channels_selected[i]["video_title"])
-        print(channels_selected[i]["videoId"])
-        print()
+        if f_name == "general_query":
+            answer = f(agent.memory[-4:])
+        else:
+            answer = f(agent.query)  
 
-    print()
-    print(summary)
+        print("Assistant:", answer)
+        agent.memory.append(agent.make_text_msg("assistant", answer))
+
 
 if __name__ == "__main__":
-    a = time()
     main()
-    print(time()-a)
