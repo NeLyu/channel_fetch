@@ -1,0 +1,32 @@
+[
+    {
+        "name": "search_channels",
+        "needs_chat_history": 0,
+        "description": "Find YouTube channels using the full original user request, not just a keyword.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "full_prompt": {
+                    "type": "string",
+                    "description": "The full original user message, exactly as provided."
+                }
+            },
+            "required": ["full_prompt"]
+        }
+    },
+    {
+        "name": "general_query",
+        "needs_chat_history": 1,
+        "description": "Answers generic messages, questions and non-questions",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "full_prompt": {
+                    "type": "string",
+                    "description": "The full original user message, exactly as provided."
+                }
+            },
+            "required": ["full_prompt"]
+        }
+    }
+]
