@@ -51,9 +51,10 @@ You will also need
 
 ### 📈 Roadmap / TODO
  
- 1. Improve selection of recommended channels
- 2. Add an option of longer dialogues
- 3. Launch at Streamlit
+ 1. Improve selection of recommended channels ✅
+ 2. Add an option of longer dialogues ✅
+ 3. Add more functionality for dialogues
+ 4. Launch at Streamlit
 
 
 ### 👤 Author
