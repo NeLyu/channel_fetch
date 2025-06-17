@@ -1,6 +1,8 @@
 # 📦 YouTube Channel Navigator
 
-That's a compact agent for finding and comparing channels relevant to your query by using both YouTube Data API and OpenAI reasoning.
+🚧 **Project Status: In Progress**
+
+That's a compact agent for finding and comparing channels relevant to your query by using the YouTube Data API and OpenAI’s SDK to support both data retrieval and agentic conversation flow.
 
 ### How is it different from ChatGPT alone?
 
