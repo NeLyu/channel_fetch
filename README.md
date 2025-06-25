@@ -29,16 +29,47 @@ python src/main.py
 ```
 Prompt example:
 ```
-Type your query: Find me channels about watercolor painting
-Output:
-1. Aryan verma studios
-https://www.youtube.com/channel/UCP4JX0XS64fmC_wnITdPuow
-2. Yasmin Art Drawing
-https://www.youtube.com/channel/UCk1HnZpqA3HDHkiAbMnGFaA
-3. ART and LEARN
-https://www.youtube.com/channel/UC6__E-Qg9kZIDa8yMn8UDig
+User: Give me channels about running
+Extracting channels...
+Selecting only relevant channels...
+Summarizing...
 
-In the realm of watercolor painting, **Aryan Verma Studios** stands out with a broad range of tutorials covering multiple mediums, catering to both beginners and advanced artists, while focusing on inspirational content. **Yasmin Art Drawing** emphasizes a more playful approach with creative DIY projects and BFF drawings, appealing particularly to younger audiences and casual art enthusiasts. In contrast, **ART and LEARN** targets families with its simple, accessible painting tutorials suitable for beginners, showcasing a variety of techniques, including watercolor. For viewers seeking a comprehensive yet exciting approach to watercolor and art, **Aryan Verma Studios** is ideal, while **Yasmin Art Drawing** is perfect for casual, fun art projects, and **ART and LEARN** is suited for those who want to engage children in artistic activities.
+Assistant: 1. Nick Bare
+https://www.youtube.com/channel/@nickbarefitness
+Treding video from the channel:
+How To Run Faster For Longer
+https://www.youtube.com/watch?v=uzRi7FS6iAY
+
+2. Global Triathlon Network
+https://www.youtube.com/channel/@gtn
+Treding video from the channel:
+Improve Your Running Speed | 3 Workouts To Make You Run Faster!
+https://www.youtube.com/watch?v=RC1lrx1IhLw
+
+3. Nico Felich
+https://www.youtube.com/channel/@nico.felich
+Treding video from the channel:
+Running Routine for Beginners
+https://www.youtube.com/watch?v=QltNOfH6Zhk
+
+4. James Dunne
+https://www.youtube.com/channel/@jamesdunne
+Treding video from the channel:
+RUNNING FASTER - The ONLY 3 Ways to Build Endurance
+https://www.youtube.com/watch?v=28KR2wmGGh0
+
+5. Ben Parkes
+https://www.youtube.com/channel/@benparkes
+Treding video from the channel:
+How To Run Faster With Less Effort
+https://www.youtube.com/watch?v=LMtW9uB2Z1o
+
+The channels related to running each offer a unique perspective and content focus. Nick Bare combines fitness advice with insights from his military background and hybrid athlete lifestyle, appealing to those interested in a diverse range of athletic training, including marathons and bodybuilding. In contrast, the Global Triathlon Network focuses on triathlon training, providing expert guidance for a variety of skill levels, as well as practical tips for running faster. Meanwhile, channels like James Dunne and Nico Felich cater more to injury prevention and personal experiences in running, making them suitable for beginners and those seeking inspiration. Overall, for viewers looking to enhance their running technique and avoid injuries, channels like James Dunne and r4ucoaching offer specialized content that emphasizes strength training and injury prevention, while those aiming for a broader fitness journey may resonate more with Nick Bare and the Global Triathlon Network.
+
+User: What are the last videos on Ben Parkes channel?What are last videos on Ben Parkes channel?
+Assistant: Recently, the channel has been focusing on in-depth reviews of running shoes from various brands, highlighting both their strengths and weaknesses. Additionally, there are practical tips for runners, including how to pace runs, avoid common mistakes, and effectively prepare for marathons and half-marathons.
+
+Check it out here https://www.youtube.com/@benparkes/videos
 ```
 
 ## ✅ Requirements
@@ -47,7 +78,7 @@ In the realm of watercolor painting, **Aryan Verma Studios** stands out with a b
 * dotenv
 
 You will also need 
-* Google Data API key, check out [this page](https://developers.google.com/youtube/v3/docs)
+* Google Data API key, check out [this page](https://developers.google.com/youtube/v3/getting-started?utm_source=chatgpt.com)
 * OpenAI API key
 
 
