@@ -3,17 +3,18 @@ import googleapiclient.errors
 import sys
 from pprint import pprint
 
+
 def build_youtube_client(api_key):
     youtube = googleapiclient.discovery.build('youtube', 'v3', developerKey=api_key)
     return youtube
 
 
-def top_videos_by_keyword(youtube, key_word, max_results):
+def top_videos_by_keyword(youtube, key_word, max_results, order="relevance"):
     video_results = youtube.search().list(
         part="snippet",
         q=key_word,
         type="video",
-        order="relevance",
+        order=order,
         maxResults=max_results
         ).execute()
     
@@ -79,21 +80,76 @@ def sort_channels(channels):
         )
     return sorted_channels
 
+
 def remove_duplicate_channels(sorted_channels):
     urls = []
     selected = []
     for el in sorted_channels:
-        url = el["snippet"]["customUrl"]
-        if url not in urls:
-            selected.append(el)
-            urls.append(url)
+        attributes = el["snippet"].keys()
+        if "customUrl" in attributes:
+            url = el["snippet"]["customUrl"]
+            if url not in urls:
+                selected.append(el)
+                urls.append(url)
     return selected
+    
 
 def add_video_title_info(video_titles, sorted_channels):
-    # print(video_titles.keys())
     for el in sorted_channels:
         channel_title = el["snippet"]["title"]
         el["snippet"]["video_title"] = video_titles[channel_title][0]
         el["snippet"]["videoId"] = video_titles[channel_title][1]
-
     return sorted_channels
+
+
+def get_video_titles(channel_id, youtube, max_results=15):
+
+    request = youtube.search().list(
+        part="snippet",
+        channelId=channel_id,
+        maxResults=max_results,
+        order="date",
+        type="video"
+    )
+
+    response = request.execute()
+
+    videos = []
+    for item in response.get("items", []):
+        video_id = item["id"]["videoId"]
+        title = item["snippet"]["title"]
+        published = item["snippet"]["publishedAt"]
+        videos.append({
+            "title": title,
+            "video_id": video_id,
+            "url": f"https://www.youtube.com/watch?v={video_id}",
+            "published": published
+        })
+
+    return videos
+
+def channel_info_by_name(name, youtube):
+    request = youtube.search().list(
+                    part="snippet",
+                    q=name.strip(),
+                    type="channel",
+                    maxResults=2
+                    )
+    response = request.execute()
+    channel_id = response["items"][0]["snippet"]["channelId"]
+
+    request = youtube.channels().list(
+        part="snippet",
+        id=channel_id,
+        maxResults=1,
+    )
+
+    response = request.execute()
+
+    info = {name:
+                {
+                    "ID": channel_id,
+                    "customUrl": response["items"][0]["snippet"]["customUrl"]
+                }}
+
+    return info
