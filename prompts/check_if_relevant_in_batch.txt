@@ -1,0 +1,22 @@
+Task:
+Determine which the YouTube channels are relevant to the query based on the channels description.
+Major focus of the channel should correspond to the query.
+
+Examples:
+1)  Input query: Find channels about gentle parenting approach
+    Channel description: I am a professional psycologist. You'll find lots of useful info here.
+    Assessment: It's a weak match even though it mentions psycology and kids.
+    Answer: no
+2)  Input query: Find channels about gentle parenting approach
+    Channel description: I am a mother of three wonderful kids. Here you'll find everything about gentle parenting. Theory, practical tips, real cases.
+    Assessment: That's a strong match, it's clearly about gentle parenting.
+    Answer: yes
+
+Input query: {query}
+Channels with description: {channel_info}
+
+Return a list of names of relevant channels.
+Output format (JSON):
+{{
+    "relevant_channels": ["string", "string", ... , "string"]
+}}

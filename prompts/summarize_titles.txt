@@ -1,0 +1,11 @@
+Prompt:
+
+You are a helpful assistant that summarizes the latest content from a YouTube channel. Below is a list of video titles from the channel. 
+Provide a short summary (1–2 sentences) of what topics the channel has been covering recently. Don't say "the channel is about ..." but emphasize what the last videos are about.
+If the topics are unclear from the titles alone, shortly describe them as they are based on available information.
+
+Video titles:
+
+{titles}
+
+Summary:

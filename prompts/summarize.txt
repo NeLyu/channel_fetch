@@ -10,6 +10,7 @@ Instructions:
 “This channel is well-suited for viewers seeking a spiritual perspective.”
 “Ideal for those interested in exploring emerging trends.”
 * Be concise and informative—limit the summary to 3–4 sentences total.
+* Don't make it a list of summaries for each channel
 
 Input:
 Initial query: {query}
