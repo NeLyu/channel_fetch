@@ -1,0 +1,35 @@
+# Privacy Policy  
+**Effective Date:** [Insert today's date]
+
+This Privacy Policy describes how the ChannelFetch app handles user data.
+
+## 1. Limited and Temporary Data Access via Google Login
+When you log in with Google, this app temporarily accesses limited profile information provided by Google, including:
+
+- Google user ID
+- Name and profile picture
+- Email address and verification status
+
+This information is used only to personalize your session and provide access to app features. It is not stored permanently.
+
+All retrieved data is automatically deleted after 15 minutes of user inactivity.  
+However, if a user exceeds the usage limit, minimal identifying data may be temporarily retained for up to 1 hour in order to enforce access restrictions.
+
+The data is not shared, sold, or used for tracking purposes.
+
+The app does not access private YouTube content, account passwords, or other sensitive data.
+
+You can revoke access at any time through your Google account settings.
+
+## 2. Session State  
+Temporary session state is stored during app use to improve user experience.  
+This information is not saved after the session ends and is never shared externally.
+
+## 3. API Key and Third-Party Processing  
+- API keys used by the app are not exposed to users.  
+- OpenAI and YouTube may process data via their own systems in accordance with:  
+  - [OpenAI Terms of Use](https://openai.com/policies/terms-of-use)  
+  - [YouTube Terms of Service](https://www.youtube.com/t/terms)
+
+## 4. Children’s Privacy  
+This app is not intended for use by children under the age of 18 and does not knowingly collect any data from them.
