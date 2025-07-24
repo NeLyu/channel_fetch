@@ -23,10 +23,6 @@ pip install -r requirements.txt
 ```
 
 ## 🧪 Usage
-Basic example of how to run your project:
-```
-python src/main.py
-```
 Prompt example:
 ```
 User: Give me channels about running
