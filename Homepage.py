@@ -21,178 +21,143 @@ import time
 
 
 
+def verify_captcha():
+    col1, col2, _ = st.columns(3)
+    if st.session_state.captcha_input.lower() == st.session_state["Captcha"].lower():
+        col1.empty()
+        col2.empty()
+        st.session_state['controllo'] = True
+        st.success("Verification successful. Welcome!")
+        
+        time.sleep(1)
+        st.rerun()
+    else:
+        # if the captcha is wrong, the controllo session state is set to False and the captcha is regenerated
+        st.session_state['controllo'] = False
+        st.error("🚨 Oops, wrong answer, try again")
+
 # define the function for the captcha control
 def captcha_control():
-
     #control if the captcha is correct
-    if 'controllo' not in st.session_state or st.session_state['controllo'] == False:
+    # if 'controllo' not in st.session_state or st.session_state['controllo'] == False:
         # define the costant
-        length_captcha = 4
-        width = 250
-        height = 45
+    length_captcha = 4
+    width = 250
+    height = 45
 
-        render_page_layout()
-        
-        st.header("YouTube Channel Navigator 📺")
-        st.markdown("Please verify that you are a human")
-        
-        # define the session state for control if the captcha is correct
-        # st.session_state['controllo'] = False
-        col1, col2, _ = st.columns(3)
-        
-        # define the session state for the captcha text because it doesn't change during refreshes 
-        if 'Captcha' not in st.session_state or st.session_state.hold == True:
-            print("!!!")
-        st.session_state['Captcha'] = ''.join(random.choices(string.ascii_uppercase + string.digits, k=length_captcha))
-        st.session_state["captcha_tries"].append(st.session_state['Captcha'])
-        print("the captcha is: ", st.session_state['Captcha'])
-
-        #setup the captcha widget
-        image = ImageCaptcha(width=width, height=height)
-        data = image.generate(st.session_state['Captcha'])
-        col1.image(data)
-        print("Before click")
-        capta2_text = col1.text_input('Enter captcha text', key="captcha_input")#, height=70)
-        print(capta2_text)
-        # time.sleep(5)
-        
-        
-        if capta2_text or st.button("Proceed to Login"):
-            print("After click")
-            # print(capta2_text, st.session_state['Captcha'])
-            capta2_text = capta2_text.replace(" ", "")
-            # st.sessions_state.hold = True
-
-            # if the captcha is correct, the controllo session state is set to True
-            # if len(st.session_state.captcha_tries) == 1:
-                # if st.session_state['Captcha'].lower() == capta2_text.lower().strip():
-            if st.session_state.captcha_tries[-2].lower() == capta2_text.lower().strip():
-                col1.empty()
-                col2.empty()
-                st.session_state['controllo'] = True
-                st.session_state.just_verified = True
-                st.success("Verification successful. Welcome!")
-                
-                time.sleep(1)
-                st.rerun()
-            else:
-                # if the captcha is wrong, the controllo session state is set to False and the captcha is regenerated
-                st.session_state['controllo'] = False
-                st.error("🚨 Oops, wrong answer, try again")
-                
-        else:
-            #wait for the button click
-            st.stop()
-
-def authorize():
-    # if 'auth' not in st.session_state or st.session_state['auth'] == False:
-    if not st.user.is_logged_in:
-        st.login("google")
-        # st.rerun()
-    # else:
-    st.stop()
-
-    # if st.button("Log out"):
-        # st.logout()
+    render_page_layout()
     
-    # st.markdown(f"Welcome! {st.user.name}")
+    st.header("YouTube Channel Navigator 📺")
+    st.markdown("Please verify that you are a human")
     
+    # define the session state for control if the captcha is correct
+    # st.session_state['controllo'] = False
+    col1, col2, _ = st.columns(3)
+    
+    # define the session state for the captcha text because it doesn't change during refreshes 
+    st.session_state['Captcha'] = ''.join(random.choices(string.ascii_uppercase + string.digits, k=length_captcha))
+    print("the captcha is: ", st.session_state['Captcha'])
+
+    #setup the captcha widget
+    image = ImageCaptcha(width=width, height=height)
+    data = image.generate(st.session_state['Captcha'])
+    col1.image(data)
+    col1.text_input('Enter captcha text', key="captcha_input", on_change=verify_captcha)#, height=70)        
+    st.button("Proceed to Login", on_click=verify_captcha)
+
+
 def render_page_layout():
+    # pass
     st.markdown(
-            """
-            <style>
-            # .stApp {
-            #     background: linear-gradient(to bottom right, #a1ffce, #ffd5ec);
-            #     color: black;
-                
-            # }
+        """
+        <style>
+    #             /* Prevent horizontal scroll globally */
+    #     html, body, [data-testid="stAppViewContainer"], .main, .block-container {
+    #         overflow-x: hidden !important;
+    #         max-width: 100vw !important;
+    #     }
+
+    #     *, *::before, *::after {
+    #         box-sizing: border-box;
+    #         max-width: 100%;
+    #     }
+
+    #     /* Scrollable fixed-height main area */
+    #     [data-testid="stAppViewContainer"] {
+    #         background: linear-gradient(to bottom right, #FFF9E5, #004030);
+    #         overflow: hidden;
+    #     }
+
+    #     .main-content {
+    #         max-height: 80vh;
+    #         overflow-y: auto;
+    #         padding-right: 15px;
+    #     }
+
+    #     # [data-testid="stSidebar"] > div:first-child {
+    #     #     background-color: #004030; ##a1ffce;
+    #     #     # color: #00ffcc;
+    #     #     display: flex;
+    #     #     flex-direction: column;
+    #     #     height: 100vh;
+    #     # }
+
+        [data-testid="stSidebar"] ul li div a span {
+            font-size: 18pt;
+            color: #FFF9E5;
+        }
+
+
+    #     /* Set the color of all links */
+    #     a {
+    #         color: #00bfff !important; /* or "navy" as you wanted */
+    #     }
+
+    #     /* Make chat and other blocks readable */
+    #     .stChatMessage,
+    #     .stMarkdown,
+    #     .stContainer {
+    #         background-color: white; #rgba(255, 255, 255, 0.85); /* Light translucent background */
+    #         color: #000000;
+    #         max-width: 700px;          /* 👈 limits width */
+    #         margin: 0 auto 1rem auto;  /* 👈 centers it */
+    #         # border-radius: 12px;
+    #         padding-right: 1rem;
+    #         # margin-bottom: 1rem;
+    #         text-align: justify;
             
-            [data-testid="stAppViewContainer"]{
-                background: linear-gradient(to bottom right, #a1ffce, #0f141e);
-                color: black;
-            [data-testid="stSidebar"]> div:first-child{
-                background-color: #0f141e;
-            # [data-testid="stBottom"]> div:nth-child(2) {
-            #     background-color: #ffd5ec;
-            }
+    #     }
+
+    #     .block-container > div:first-child {
+    #         max-width: 700px;
+    #         margin: 0 auto;
+    #     }
+
+
+    #     /* Optional: fix text input background too */
+    #     textarea, .stTextInput > div > div > input {
+    #         background-color: white; #rgba(255, 255, 255, 0.85) !important;
+    #         color: black !important;
             
-            </style>
-            """,
-            unsafe_allow_html=True
-        )
+    #     }
 
-def render_chat_history(memory):
-    # for msg in st.session_state.memory[:-2]:  # Skip last user + assistant
-    for msg in memory[:-2]:    
-        with st.chat_message(msg["role"]):
-            content = msg["content"]
-            if isinstance(content, list):
-                st.markdown(content[0]["text"])
-            else:
-                st.markdown(content)
+    #     </style>
+        """,
+        unsafe_allow_html=True
+    )
 
-def redis_get(host, port, password, key, attribute=False):
-    r = redis.Redis(host=host, port=port, 
-                 db=0, decode_responses=True,
-                 username='default', password=password)
-    try:
-        r.ping()
-    except redis.exceptions.ConnectionError:
-        return "xui"
-    
-    try:
-        if attribute:
-            value = r.hget(key, attribute)
-        else:
-            value = r.hgetall(key)
-    finally:
-        del r
-    return value
+    # # Push the logout button to bottom
+    # with st.sidebar:
+    #     # st.markdown("### Navigation")
+    #     # st.button("🔍 Explore")  # Example button
 
+    #     st.markdown("<div style='flex: 1'></div>", unsafe_allow_html=True)
 
-def redis_set(host, port, password, key, values_dict):
-    r = redis.Redis(host=host, port=port, 
-                 db=0, decode_responses=True,
-                 username='default', password=password)
-    try:
-        r.ping()
-    except redis.exceptions.ConnectionError:
-        return "xui"
-    
-    try:
-        r.hset(key, mapping=values_dict)
-    finally:
-        del r  
-    
+    #     # Logout button at bottom
+    #     if st.button("Logout"):
+    #         st.logout()
+    #         st.rerun()
 
-def redis_push(host, port, password, key, value):
-    r = redis.Redis(host=host, port=port, 
-                 db=0, decode_responses=True,
-                 username='default', password=password)
-    try:
-        r.ping()
-    except redis.exceptions.ConnectionError:
-        return "xui"
-    
-    try:
-        r.rpush(key+":memo", value)
-    finally:
-        del r
-
-def redis_lrange(host, port, password, key):
-    r = redis.Redis(host=host, port=port, 
-                 db=0, decode_responses=True,
-                 username='default', password=password)
-    try:
-        r.ping()
-    except redis.exceptions.ConnectionError:
-        return "xui"
-    
-    try:
-        messages = r.lrange(key+":memo", 0, -1)
-    finally:
-        del r    
-    return messages
 
 def get_credentials():
     host = st.session_state.redis_host
@@ -200,23 +165,19 @@ def get_credentials():
     password = st.session_state.redis_password
     return host, port, password
 
-
-def main():
+def create_connection(host, port, password):
+    r = redis.Redis(host=host, port=port, 
+                 db=0, decode_responses=True,
+                 username='default', password=password)
+    try:
+        r.ping()
+        return r
+    except redis.exceptions.ConnectionError:
+        return "xui"
     
-    render_page_layout()
-    st.title("📺 YouTube Channel Navigator")
-
-    ### REDIS INIT
-    ### GET INFO BY HASH OR CREATE A NEW ENTRY
-    host, port, password = get_credentials()
-    msg_from_db = redis_lrange(host, port, password, st.user.email)
-    if not msg_from_db:
-        memory = []
-    memory = [json.loads(msg) for msg in msg_from_db]
-
-    user_query = st.chat_input("Enter your query")
+def render_chat_history(memory):
     
-    for msg in memory:# Render assistant response immediately
+    for msg in memory[-10:]:# Render assistant response immediately
         if isinstance(msg, dict) and "role" in msg and "content" in msg:
             with st.chat_message(msg["role"]):
                 if isinstance(msg["content"], list):
@@ -224,94 +185,113 @@ def main():
                 else:    # if not st.session_state.get("Captcha"):
                     st.markdown(msg["content"])
 
-    if user_query and st.session_state.block == False:
-        # Render user message immediately
-        with st.chat_message("user"):
-            st.markdown(user_query)
+def get_memory(r):
+    msg_from_db = r.lrange(st.user.email+":memo", 0, -1)
+    print("MSG FROM DB", msg_from_db)
 
-        st.session_state.last_active = datetime.now()
-        st.session_state.agent.query = user_query
-        message = st.session_state.agent.make_text_msg("user", st.session_state.agent.query)
-        print(message)
-        memory.append(message) #message)
-        print(memory)
-        
-        redis_push(host, port, password, st.user.email, json.dumps(message))
+    # if msg_from_db == []:
+        # r.rpush(st.user.email+":memo", json.dumps({"content": [{"type": "text", "text": "I am an agent that helps you find YouTube channels"}], "role":"assistant"}))
+        # memory = [{"content": [{"type": "text", "text": "I am an agent that helps you find YouTube channels"}], "role":"assistant"}]
+    # else:
+    memory = [json.loads(msg) for msg in msg_from_db]
+    return memory
+    
+def chat(r):
+    
+    render_page_layout()
+    st.title("📺 YouTube Channel Navigator")
 
+    ### REDIS INIT
+    ### GET INFO BY HASH OR CREATE A NEW ENTRY
+    memory = get_memory(r)
+    render_chat_history(memory)
+
+    user_query = st.chat_input("Enter your query")
+    
+    if memory[-1]["role"] == "user":
+        #run OpenAI
         with st.spinner("..."):
 
             func = st.session_state.agent.determine_function(memory[-4:])
 
             if func is None:
                 f_name = "general_query"
-                v = redis_get(host, port, password, st.user.email, "msg_count")
-                print(v)
-                print(type(v))
-                redis_set(host, port, password, st.user.email, {"msg_count": int(v)+1})
-                # st.session_state.msg_count += 1
             else:
                 f_name = func.name
-                v = redis_get(host, port, password, st.user.email, "msg_count")
-                print(v)
-                print(type(v))
-                redis_set(host, port, password, st.user.email, {"msg_count": int(v)+1})
+                msg_count = r.hget(st.user.email, "msg_count")
+                print(msg_count)
+                r.hset(st.user.email, mapping={"msg_count": int(msg_count)+1})
                 # st.session_state.msg_count += 1
             
             f = st.session_state.agent.functions_registry()[f_name]
 
             if f_name == "general_query":
-                # answer = f(st.session_state.memory[-4:])
                 answer = f(memory[-4:])
             else:
                 answer = f(st.session_state.agent.query)  
 
             print("Assistant:", answer)
-
             ### APPEND
-            redis_push(host, port, password, st.user.email, json.dumps(st.session_state.agent.make_text_msg("assistant", answer)))
-            # st.session_state.memory.append(st.session_state.agent.make_text_msg("assistant", answer))
-            # Render assistant response immediately
-            with st.chat_message("assistant"):
-                st.markdown(answer if isinstance(answer, str) else answer[0]["text"])
-
-            
-    st_autorefresh(interval=15 * 1000, key="auto_refresh")
-        
-    if st.session_state.last_active:
-        inactive_seconds = (datetime.now() - st.session_state.last_active).total_seconds()
-        if inactive_seconds > 25:
-            clean_session()
+            r.rpush(st.user.email+":memo", json.dumps(st.session_state.agent.make_text_msg("assistant", answer)))
+            print("PUSHED")
             st.rerun()
-    if st.session_state.msg_count > 3:
-        over_limit()
 
-    ### DEL REDIS
+    elif memory[-1]["role"] == "assistant":
+        if user_query:
+            print("USER QUERY", user_query)
+            st.session_state.last_active = time.time() # TO REDIS
+            st.session_state.agent.query = user_query
+            message = st.session_state.agent.make_text_msg("user", st.session_state.agent.query)
+            r.rpush(st.user.email+":memo", json.dumps(message))
+            st.rerun()
+    #   text_input()
+# else:
+    # ..   
+    st_autorefresh(interval=15 * 1000, key="auto_refresh")
+    
+    # if st.session_state.last_active:
+    #     inactive_seconds = (datetime.now() - st.session_state.last_active).total_seconds()
+    #     if inactive_seconds > 10:
+    #         clean_session()
+    #         st.rerun()
+    # if msg_count > 3:
+    #     over_limit()
 
 
-def clean_session():
-    st.session_state.just_verified = False
+def old_clean_session():
     st.session_state.controllo = False
     st.session_state.auth = False
-    st.session_state.last_active = datetime.now()
-    st.session_state.memory = []
-    st.session_state.block = False
+    r.hset(st.user.email, mapping={"last_active": time.time()})
+    r.hset(st.user.email, mapping={"block": -1, "msg_count": 0})
     st.logout()
 
-def over_limit():
-    st.session_state.block = True
+def clean_session():
+    st.session_state.controllo = False
+    st.session_state.auth = False
+    st.session_state.last_active = time.time()
+    r.delete(st.user.email)
+    r.delete(st.user.email+":memo")
+    st.logout()
+
+def over_limit(blocked_at):
     render_page_layout()
-    st.markdown("Oops! You've reached the limit of free requests. This app is free to use, and we want to ensure fair access for everyone. You'll be able to log in and chat again in about an hour. Thank you for your understanding!")
-    st_autorefresh(interval=15 * 1000, key="auto_refresh_2")
-        
-    if st.session_state.last_active:
-        inactive_seconds = (datetime.now() - st.session_state.last_active).total_seconds()
-        if inactive_seconds > 35:
-            clean_session()
-            st.rerun()
+    memory = get_memory(r)
+    render_chat_history(memory)
+    with st.chat_message("assistant"):
+        st.markdown("Oops! You've reached the limit of free requests. This app is free to use, and we want to ensure fair access for everyone. You'll be able to log in and chat again in about an hour. Thank you for your understanding!")
+    
+    if int(float(blocked_at)) == 0:
+        print("ZERO")
+        r.hset(st.user.email, mapping={"block": time.time()})
+
+    inactive_seconds = round(time.time() - int(float(blocked_at)))
+    if inactive_seconds > 30:
+        clean_session()
+        st.rerun()
 
 # Session state initialization
 if "last_active" not in st.session_state:
-    st.session_state.last_active = datetime.now()
+    st.session_state.last_active = time.time()
 if "memory" not in st.session_state:
     st.session_state.memory = []
 if "agent" not in st.session_state:
@@ -322,10 +302,6 @@ if "just_verified" not in st.session_state:
     st.session_state.just_verified = False
 if "controllo" not in st.session_state:
     st.session_state.controllo = False
-if 'Captcha' not in st.session_state:
-    st.session_state['Captcha'] = ''.join(random.choices(string.ascii_uppercase + string.digits, k=4)) #length_captcha))
-if "captcha_tries" not in st.session_state:
-    st.session_state.captcha_tries = [st.session_state["Captcha"], st.session_state["Captcha"]]
 if "hold" not in st.session_state:
     st.session_state.hold = False 
 if "auth" not in st.session_state:
@@ -345,8 +321,9 @@ default_db_params = {
                     # "memory": ,
                      "last_active": time.time(),
                      "msg_count": 0,
-                     "block": 0,
-                     "auth": 1}
+                     "block": -1,
+                     "auth": 1,
+                     }
 
 
 st.write('Random %d' % (random.randint(1,14234)) )
@@ -361,6 +338,43 @@ USER: {[str(k)+":"+str(v) for k,v in st.user.items()]}
 """
 )
 
+
+if not st.user.is_logged_in:
+    if st.session_state['controllo'] == False:
+        captcha_control()
+    else: 
+        render_page_layout()
+        st.login("google")
+        st.stop()
+else:  # logged in
+    host, port, password = get_credentials()
+    r = create_connection(host, port, password)
+    try:
+        user_in_db = r.hgetall(st.user.email)
+
+        if not user_in_db:
+            r.hset(st.user.email, mapping=default_db_params)
+            r.rpush(st.user.email+":memo", json.dumps({"content": [{"type": "text", "text": "I am an agent that helps you find YouTube channels"}], "role":"assistant"}))
+
+        inactive = time.time() - st.session_state.last_active
+        if inactive > 65:
+            clean_session()
+            st.rerun()
+
+        timeout = r.hget(st.user.email, "msg_count")
+        print("TIMEOUT", timeout)
+
+        if int(timeout) < 3:
+            chat(r)
+        else:
+            blocked_at = r.hget(st.user.email, "block")
+            if int(float(blocked_at)) == -1:
+                blocked_at = time.time()
+                r.hset(st.user.email, mapping={"block": blocked_at})
+            over_limit(blocked_at)
+            
+    finally:
+        del r
 
 # str(st.user.name
   # 3 minutes
@@ -378,33 +392,4 @@ USER: {[str(k)+":"+str(v) for k,v in st.user.items()]}
 #               st.user.email, "")
 
     # print(st.user.email)
-
-if not st.user.is_logged_in:
-    if st.session_state['controllo'] == False:
-        captcha_control()
-    else: #st.session_state['controllo'] != False:
-        # st.session_state.controllo = False
-        render_page_layout()
-        
-        st.login("google")
-        st.stop()
-    # print("!!!!!")
-    # time.sleep(2)
-    # redis_set(st.session_state.redis_host,
-    #           st.session_state.redis_port,
-    #           st.session_state.redis_password,
-    #           st.user.name,
-    #           default_db_params
-    #           )
-    
-    # print(redis_get(st.user.name))
-    # print("After login")
-    hash = "HASH"
-    ### CREATE ENTRY
-    ## -->
-    # st.stop()
-else:
-    if st.session_state.block == True:
-        over_limit()
-    else:
-        main()
+# st.logout()
