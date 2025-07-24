@@ -1,4 +1,4 @@
-# 📦 YouTube Channel Navigator
+# 📦 ChannelFetch
 
 🚧 **Project Status: In Progress**
 
