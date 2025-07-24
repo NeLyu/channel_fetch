@@ -131,7 +131,7 @@ class YTNavigatorAgent:
         for i in range(top_to_show):
             message += f"""{i + 1}. {channels_selected[i]["snippet"]["title"]}\n"""
             message += f"""https://www.youtube.com/{channels_selected[i]["snippet"]["customUrl"]}\n"""
-            message += f"Treding video from the channel:" + "\n"
+            message += f"\nTrending video from the channel:" + "\n"
             message += channels_selected[i]["snippet"]["video_title"] + "\n"
             message += f"""https://www.youtube.com/watch?v={channels_selected[i]["snippet"]["videoId"]}\n\n"""
         
