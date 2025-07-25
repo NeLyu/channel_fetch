@@ -32,9 +32,7 @@ def verify_captcha():
 
 
 def captcha_control():
-
     render_page_layout()
-    
     st.header("ChannelFetch 📺")
     st.html("""<div style="text-align: justify;">
             <strong>Tired of endless scrolling on YouTube? Let ChannelFetch come into play!</strong>
@@ -101,7 +99,7 @@ def create_connection(host, port, password):
         return r
     except redis.exceptions.ConnectionError:
         return "x"
-
+    
 
 def render_chat_history(memory):
     for msg in memory[-10:]:
@@ -120,7 +118,8 @@ def get_memory(r):
     
 
 def chat(r):
-    render_page_layout()
+    
+    # render_page_layout()
     st.title("📺 ChannelFetch")
 
     memory = get_memory(r)
@@ -167,6 +166,14 @@ def chat(r):
     st_autorefresh(interval=15 * 1000, key="auto_refresh")
 
 
+def clean_session():
+    st.session_state.controllo = False
+    st.session_state.last_active = time.time()
+    r.delete(st.user.email)
+    r.delete(st.user.email+":memo")
+    st.logout()
+
+
 def over_limit(blocked_at):
     render_page_layout()
     memory = get_memory(r)
@@ -179,17 +186,9 @@ def over_limit(blocked_at):
         r.hset(st.user.email, mapping={"block": time.time()})
 
     inactive_seconds = round(time.time() - int(float(blocked_at)))
-    if inactive_seconds > 30:
+    if inactive_seconds > 90:
         clean_session()
         st.rerun()
-
-
-def clean_session():
-    st.session_state.controllo = False
-    st.session_state.last_active = time.time()
-    r.delete(st.user.email)
-    r.delete(st.user.email+":memo")
-    st.logout()
 
 
 # Session state initialization
@@ -214,20 +213,21 @@ default_db_params = {
                      "auth": 1,
                      }
 
-
+# st.logout()
 if not st.user.is_logged_in:
     if st.session_state['controllo'] == False:
         captcha_control()
+
     else: 
         render_page_layout()
         st.login("google")
         st.stop()
 else:  # logged in
 
-    with st.sidebar:
-        if st.button("Logout"):
-            st.logout()
-            st.rerun()
+    # with st.sidebar:
+    #     if st.button("Logout"):
+    #         st.logout()
+    #         st.rerun()
 
     host, port, password = get_credentials()
     r = create_connection(host, port, password)
@@ -239,7 +239,7 @@ else:  # logged in
             r.rpush(st.user.email+":memo", json.dumps({"content": [{"type": "text", "text": "I am an agent that helps you find YouTube channels"}], "role":"assistant"}))
 
         inactive = time.time() - st.session_state.last_active
-        if inactive > 65:
+        if inactive > 95:
             clean_session()
             st.rerun()
 
@@ -257,17 +257,3 @@ else:  # logged in
             
     finally:
         del r
-
-# st.logout()
-
-# st.write('Random %d' % (random.randint(1,14234)) )
-# st.html(
-# f"""
-# <pre>
-# {"\n".join([str(k)+":"+str(v) for k,v in st.session_state.items()])}
-# </pre>
-# <pre>
-# USER: {[str(k)+":"+str(v) for k,v in st.user.items()]}
-# </pre>
-# """
-# )
