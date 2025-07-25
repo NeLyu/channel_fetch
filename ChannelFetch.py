@@ -5,7 +5,6 @@ import redis
 from dotenv import load_dotenv
 import os, json
 from pprint import pprint
-import sys
 from datetime import datetime
 from streamlit_autorefresh import st_autorefresh
 
@@ -84,10 +83,12 @@ def render_page_layout():
 
 
 def get_credentials():
-    host = st.session_state.redis_host
-    port = st.session_state.redis_port
-    password = st.session_state.redis_password
-    return host, port, password
+    host = st.secrets["redis"]["redis_host"]
+    port = st.secrets["redis"]["redis_port"]
+    password = st.secrets["redis"]["redis_password"]
+    openai = st.secrets["api_keys"]["openai_key"]
+    yt = st.secrets["api_keys"]["youtube_key"]
+    return host, port, password, openai, yt
 
 
 def create_connection(host, port, password):
@@ -117,7 +118,7 @@ def get_memory(r):
     return memory
     
 
-def chat(r):
+def chat(r, openai_key, yt_key):
     
     # render_page_layout()
     st.title("📺 ChannelFetch")
@@ -192,12 +193,14 @@ def over_limit(blocked_at):
 
 
 # Session state initialization
+host, port, password, openai_key, yt_key = get_credentials()
+
 if "last_active" not in st.session_state:
     st.session_state.last_active = time.time()
 if "agent" not in st.session_state:
     load_dotenv()
-    api_key = os.environ.get("YT_API_KEY")
-    st.session_state.agent = ac.YTNavigatorAgent("", api_key)
+    # api_key = os.environ.get("YT_API_KEY")
+    st.session_state.agent = ac.YTNavigatorAgent("", openai_key, yt_key)
 if "controllo" not in st.session_state:
     st.session_state.controllo = False
 if "redis_host" not in st.session_state:
@@ -229,7 +232,6 @@ else:  # logged in
     #         st.logout()
     #         st.rerun()
 
-    host, port, password = get_credentials()
     r = create_connection(host, port, password)
     try:
         user_in_db = r.hgetall(st.user.email)
@@ -247,7 +249,7 @@ else:  # logged in
         print("TIMEOUT", timeout)
 
         if int(timeout) < 3:
-            chat(r)
+            chat(r, openai_key, yt_key)
         else:
             blocked_at = r.hget(st.user.email, "block")
             if int(float(blocked_at)) == -1:

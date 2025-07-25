@@ -4,11 +4,14 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import os, json, sys
 from pprint import pprint
+import streamlit as st
 
 class YTNavigatorAgent:
-    def __init__(self, query, api_key):
+    def __init__(self, query, openai_key=None, ytapi_key=None):
         self.query = query
-        self.youtube = yt.build_youtube_client(api_key)
+        self.ytapi_key = ytapi_key
+        self.youtube = yt.build_youtube_client(self.ytapi_key)
+        self.openai_key = openai_key
         self.s_template = {"role": "system",
                             "content": load_prompt_template("sys_prompt")}
             
@@ -116,8 +119,8 @@ class YTNavigatorAgent:
 
     def call_openai(self, messages):
         load_dotenv()
-        openai_key = os.environ.get("OPENAI_API_KEY")
-        client = OpenAI(api_key=openai_key)
+        # openai_key = #os.environ.get("OPENAI_API_KEY")
+        client = OpenAI(api_key=self.openai_key)
         messages = [self.s_template] + messages
         response = client.chat.completions.create(
                         model="gpt-4o-mini",
@@ -208,8 +211,8 @@ class YTNavigatorAgent:
         with open('./prompts/functions_descriptions.json', 'r') as file:
             functions = json.load(file)
 
-        openai_key = os.environ.get("OPENAI_API_KEY")
-        client = OpenAI(api_key=openai_key)
+        # openai_key = os.environ.get("OPENAI_API_KEY")
+        client = OpenAI(api_key=self.openai_key)
 
         response = client.chat.completions.create(
             model="gpt-4-0613",
