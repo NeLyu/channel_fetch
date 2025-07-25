@@ -1,6 +1,6 @@
 google-api-python-client
 openai
 dotenv
-redis-py
+redis>=6.2.0
 captcha
 streamlit_autorefresh
