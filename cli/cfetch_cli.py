@@ -1,5 +1,4 @@
 from agent.utils.youtube_utils import build_youtube_client
-from agent.utils.prompt_loader import load_prompt_template
 import agent.utils.youtube_utils as yt
 import agent.agent_core as ac
 from time import time
@@ -22,7 +21,6 @@ def main():
         agent.memory.append(message)
 
         func = agent.determine_function(agent.memory[-4:])
-        print(func)
 
         if func is None:
             f_name = "general_query"
