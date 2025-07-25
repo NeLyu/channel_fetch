@@ -4,3 +4,4 @@ dotenv
 redis>=6.2.0
 captcha
 streamlit_autorefresh
+Authlib>=1.3.2
