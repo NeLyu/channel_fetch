@@ -2,3 +2,5 @@
 *.env
 venv/
 .streamlit/
+agent/__pycache__/agent_core.cpython-38.pyc
+agent/utils/__pycache__/youtube_utils.cpython-38.pyc
