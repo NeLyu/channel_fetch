@@ -10,6 +10,3 @@ showSidebarBorder = true
 backgroundColor = "#004030"
 textColor = "#FFF9E5"
 borderColor = "#FFF9E5"
-
-[server]
-port = 8502
