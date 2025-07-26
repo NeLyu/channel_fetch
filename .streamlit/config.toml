@@ -9,7 +9,6 @@ showSidebarBorder = true
 # Primary accent color.
 backgroundColor = "#004030"
 textColor = "#FFF9E5"
-fontSize = "18pt"
 borderColor = "#FFF9E5"
 
 [server]
