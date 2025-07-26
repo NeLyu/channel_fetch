@@ -1,0 +1,16 @@
+[theme]
+base = "dark"
+# backgroundColor = "#DCD0A8"
+baseFontSize = 20
+showWidgetBorder = true
+showSidebarBorder = true
+
+[theme.sidebar]
+# Primary accent color.
+backgroundColor = "#004030"
+textColor = "#FFF9E5"
+fontSize = "18pt"
+borderColor = "#FFF9E5"
+
+[server]
+port = 8502
