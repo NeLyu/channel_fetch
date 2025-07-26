@@ -86,8 +86,8 @@ def get_credentials():
     host = st.secrets["redis"]["redis_host"]
     port = st.secrets["redis"]["redis_port"]
     password = st.secrets["redis"]["redis_password"]
-    openai = st.secrets["api_keys"]["openai_key"]
-    yt = st.secrets["api_keys"]["youtube_key"]
+    openai = str(st.secrets["api_keys"]["openai_key"])
+    yt = str(st.secrets["api_keys"]["youtube_key"])
     return host, port, password, openai, yt
 
 
@@ -187,7 +187,7 @@ def over_limit(blocked_at):
         r.hset(st.user.email, mapping={"block": time.time()})
 
     inactive_seconds = round(time.time() - int(float(blocked_at)))
-    if inactive_seconds > 90:
+    if inactive_seconds > 900:
         clean_session()
         st.rerun()
 
@@ -227,11 +227,6 @@ if not st.user.is_logged_in:
         st.stop()
 else:  # logged in
 
-    # with st.sidebar:
-    #     if st.button("Logout"):
-    #         st.logout()
-    #         st.rerun()
-
     r = create_connection(host, port, password)
     try:
         user_in_db = r.hgetall(st.user.email)
@@ -241,14 +236,14 @@ else:  # logged in
             r.rpush(st.user.email+":memo", json.dumps({"content": [{"type": "text", "text": "I am an agent that helps you find YouTube channels"}], "role":"assistant"}))
 
         inactive = time.time() - st.session_state.last_active
-        if inactive > 95:
+        if inactive > 900:
             clean_session()
             st.rerun()
 
         timeout = r.hget(st.user.email, "msg_count")
         print("TIMEOUT", timeout)
 
-        if int(timeout) < 3:
+        if int(timeout) < 12:
             chat(r, openai_key, yt_key)
         else:
             blocked_at = r.hget(st.user.email, "block")
