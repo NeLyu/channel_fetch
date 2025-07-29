@@ -205,7 +205,7 @@ if "agent" not in st.session_state:
 if "controllo" not in st.session_state:
     st.session_state.controllo = False
 if "logged_in" not in st.session_state:
-    st.session_state.controllo = False
+    st.session_state.logged_in = False
 if "redis_host" not in st.session_state:
     load_dotenv()
     st.session_state.redis_host = os.environ.get("REDIS_HOST")
