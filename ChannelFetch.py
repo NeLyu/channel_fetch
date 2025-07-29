@@ -253,7 +253,7 @@ else:  # logged in
         #     r.rpush(st.user.email+":memo", json.dumps({"content": [{"type": "text", "text": "I am an agent that helps you find YouTube channels"}], "role":"assistant"}))
         #     r.expire(st.user.email, 160)
         #     r.expire(st.user.email+":memo", 160)
-        first_login = r.get(st.user.email, "first_login")
+        first_login = r.hget(st.user.email, "first_login")
         if int(float(first_login)) != 1:
             st.logout()
 
