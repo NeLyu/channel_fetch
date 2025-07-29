@@ -229,8 +229,9 @@ if not st.user.is_logged_in:
     else: 
         render_page_layout()
         st.login("google")
+        st.session_state.logged_in = True
         st.stop()
-elif st.user.is_logged_in and st.session_state['controllo'] == False:
+elif st.user.is_logged_in and st.session_state['logged_in'] == False:
     st.logout()
 else:  # logged in
 
