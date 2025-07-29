@@ -81,10 +81,6 @@ def render_page_layout():
         """,
         unsafe_allow_html=True
     )
-    with st.sidebar:
-        if st.button("Logout"):
-            st.logout()
-            st.rerun()
 
 
 def get_credentials():
@@ -222,7 +218,7 @@ default_db_params = {
                      }
 
 with st.sidebar:
-    if st.button("Logout"):
+    if st.button("Logout", key="logout_sidebar"):
         st.logout()
         st.rerun()
 # st.logout()
