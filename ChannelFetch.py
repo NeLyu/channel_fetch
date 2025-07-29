@@ -68,6 +68,7 @@ def captcha_control():
 
 
 def render_page_layout():
+    
     st.markdown(
         """
         <style>
@@ -80,6 +81,10 @@ def render_page_layout():
         """,
         unsafe_allow_html=True
     )
+    with st.sidebar:
+        if st.button("Logout"):
+            st.logout()
+            st.rerun()
 
 
 def get_credentials():
@@ -232,8 +237,8 @@ else:  # logged in
         user_in_db = r.hgetall(st.user.email)
 
         if not user_in_db:
-            r.hset(st.user.email, mapping=default_db_params)
-            r.rpush(st.user.email+":memo", json.dumps({"content": [{"type": "text", "text": "I am an agent that helps you find YouTube channels"}], "role":"assistant"}))
+            r.hset(st.user.email, mapping=default_db_params, ex=60)
+            r.rpush(st.user.email+":memo", json.dumps({"content": [{"type": "text", "text": "I am an agent that helps you find YouTube channels"}], "role":"assistant"}), ex=60)
 
         inactive = time.time() - st.session_state.last_active
         if inactive > 900:
