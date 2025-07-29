@@ -1,5 +1,5 @@
 # Privacy Policy  
-**Effective Date:** [Insert today's date]
+**Effective Date:** 29.07.2025
 
 This Privacy Policy describes how the ChannelFetch app handles user data.
 
@@ -12,8 +12,7 @@ When you log in with Google, this app temporarily accesses limited profile infor
 
 This information is used only to personalize your session and provide access to app features. It is not stored permanently.
 
-All retrieved data is automatically deleted after 15 minutes of user inactivity.  
-However, if a user exceeds the usage limit, minimal identifying data may be temporarily retained for up to 1 hour in order to enforce access restrictions.
+All retrieved data is automatically deleted after 1 hour of user inactivity.  
 
 The data is not shared, sold, or used for tracking purposes.
 
