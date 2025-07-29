@@ -239,10 +239,10 @@ else:  # logged in
         user_in_db = r.hgetall(st.user.email)
 
         if not user_in_db:
-            r.hset(st.user.email, mapping=default_db_params, ex=60)
+            r.hset(st.user.email, mapping=default_db_params)
             r.rpush(st.user.email+":memo", json.dumps({"content": [{"type": "text", "text": "I am an agent that helps you find YouTube channels"}], "role":"assistant"}))
-            r.expire(st.user.email, 60)
-            r.expire(st.user.email+":memo", 60)
+            r.expire(st.user.email, 160)
+            r.expire(st.user.email+":memo", 160)
 
         inactive = time.time() - st.session_state.last_active
         if inactive > 900:
