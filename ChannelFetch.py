@@ -221,6 +221,10 @@ default_db_params = {
                      "auth": 1,
                      }
 
+with st.sidebar:
+    if st.button("Logout"):
+        st.logout()
+        st.rerun()
 # st.logout()
 if not st.user.is_logged_in:
     if st.session_state['controllo'] == False:
@@ -230,6 +234,8 @@ if not st.user.is_logged_in:
         render_page_layout()
         st.login("google")
         st.stop()
+elif st.user.is_logged_in and st.session_state['controllo'] == False:
+    st.logout()
 else:  # logged in
 
     r = create_connection(host, port, password)
@@ -237,7 +243,7 @@ else:  # logged in
         user_in_db = r.hgetall(st.user.email)
 
         if not user_in_db:
-            r.hset(st.user.email, mapping=default_db_params)
+            r.hset(st.user.email, mapping=default_db_params, ex=60)
             r.rpush(st.user.email+":memo", json.dumps({"content": [{"type": "text", "text": "I am an agent that helps you find YouTube channels"}], "role":"assistant"}))
             r.expire(st.user.email, 60)
             r.expire(st.user.email+":memo", 60)
