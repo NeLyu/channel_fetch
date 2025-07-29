@@ -254,7 +254,7 @@ else:  # logged in
         #     r.expire(st.user.email, 160)
         #     r.expire(st.user.email+":memo", 160)
         first_login = r.hget(st.user.email, "first_login")
-        if int(float(first_login)) != 1:
+        if first_login != 1:
             st.logout()
 
         inactive = time.time() - st.session_state.last_active
