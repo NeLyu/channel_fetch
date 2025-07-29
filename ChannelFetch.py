@@ -217,6 +217,7 @@ default_db_params = {
                      "msg_count": 0,
                      "block": -1,
                      "auth": 1,
+                     "first_login": 0
                      }
 
 with st.sidebar:
@@ -230,22 +231,31 @@ if not st.user.is_logged_in:
 
     else: 
         render_page_layout()
+        r = create_connection(host, port, password)
         st.login("google")
-        st.session_state.logged_in = True
+        r.hset(st.user.email, mapping=default_db_params)
+        r.hset(st.user.email, mapping={"first_login": 1})
+        r.rpush(st.user.email+":memo", json.dumps({"content": [{"type": "text", "text": "I am an agent that helps you find YouTube channels"}], "role":"assistant"}))
+        r.expire(st.user.email, 160)
+        r.expire(st.user.email+":memo", 160)
+        
+
         st.stop()
-elif st.user.is_logged_in and st.session_state['logged_in'] == False:
-    st.logout()
+
 else:  # logged in
 
     r = create_connection(host, port, password)
     try:
         user_in_db = r.hgetall(st.user.email)
 
-        if not user_in_db:
-            r.hset(st.user.email, mapping=default_db_params)
-            r.rpush(st.user.email+":memo", json.dumps({"content": [{"type": "text", "text": "I am an agent that helps you find YouTube channels"}], "role":"assistant"}))
-            r.expire(st.user.email, 160)
-            r.expire(st.user.email+":memo", 160)
+        # if not user_in_db:
+        #     r.hset(st.user.email, mapping=default_db_params)
+        #     r.rpush(st.user.email+":memo", json.dumps({"content": [{"type": "text", "text": "I am an agent that helps you find YouTube channels"}], "role":"assistant"}))
+        #     r.expire(st.user.email, 160)
+        #     r.expire(st.user.email+":memo", 160)
+        first_login = r.get(st.user.email, "first_login")
+        if int(float(first_login)) != 1:
+            st.logout()
 
         inactive = time.time() - st.session_state.last_active
         if inactive > 900:
