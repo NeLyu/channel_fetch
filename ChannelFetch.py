@@ -184,7 +184,6 @@ def over_limit(blocked_at):
         st.markdown("Oops! You've reached the limit of free requests. This app is free to use, and we want to ensure fair access for everyone. You'll be able to log in and chat again in about an hour. Thank you for your understanding!")
     
     if int(float(blocked_at)) == 0:
-        print("ZERO")
         r.hset(st.user.email, mapping={"block": time.time()})
 
     inactive_seconds = round(time.time() - int(float(blocked_at)))
@@ -220,11 +219,7 @@ default_db_params = {
                      "first_login": 0
                      }
 
-with st.sidebar:
-    if st.button("Logout", key="logout_sidebar"):
-        st.logout()
-        st.rerun()
-# st.logout()
+
 if not st.user.is_logged_in:
     if st.session_state['controllo'] == False:
         captcha_control()
@@ -232,30 +227,21 @@ if not st.user.is_logged_in:
     else: 
         render_page_layout()
         r = create_connection(host, port, password)
-        st.login("google")
-        r.hset(st.user.email, mapping=default_db_params)
-        r.hset(st.user.email, mapping={"first_login": 1})
-        r.rpush(st.user.email+":memo", json.dumps({"content": [{"type": "text", "text": "I am an agent that helps you find YouTube channels"}], "role":"assistant"}))
-        r.expire(st.user.email, 160)
-        r.expire(st.user.email+":memo", 160)
-        
-
+        st.login("google")     
         st.stop()
-
+elif st.user.is_logged_in and (time.time() - st.user.iat) > 160:
+    st.logout()
 else:  # logged in
 
     r = create_connection(host, port, password)
     try:
         user_in_db = r.hgetall(st.user.email)
 
-        # if not user_in_db:
-        #     r.hset(st.user.email, mapping=default_db_params)
-        #     r.rpush(st.user.email+":memo", json.dumps({"content": [{"type": "text", "text": "I am an agent that helps you find YouTube channels"}], "role":"assistant"}))
-        #     r.expire(st.user.email, 160)
-        #     r.expire(st.user.email+":memo", 160)
-        first_login = r.hget(st.user.email, "first_login")
-        if first_login != 1:
-            st.logout()
+        if not user_in_db:
+            r.hset(st.user.email, mapping=default_db_params)
+            r.rpush(st.user.email+":memo", json.dumps({"content": [{"type": "text", "text": "I am an agent that helps you find YouTube channels"}], "role":"assistant"}))
+            r.expire(st.user.email, 160)
+            r.expire(st.user.email+":memo", 160)
 
         inactive = time.time() - st.session_state.last_active
         if inactive > 900:
@@ -263,7 +249,6 @@ else:  # logged in
             st.rerun()
 
         timeout = r.hget(st.user.email, "msg_count")
-        print("TIMEOUT", timeout)
 
         if int(timeout) < 12:
             chat(r, openai_key, yt_key)
