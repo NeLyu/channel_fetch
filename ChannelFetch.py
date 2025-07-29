@@ -204,6 +204,8 @@ if "agent" not in st.session_state:
     st.session_state.agent = ac.YTNavigatorAgent("", openai_key, yt_key)
 if "controllo" not in st.session_state:
     st.session_state.controllo = False
+if "logged_in" not in st.session_state:
+    st.session_state.controllo = False
 if "redis_host" not in st.session_state:
     load_dotenv()
     st.session_state.redis_host = os.environ.get("REDIS_HOST")
