@@ -192,6 +192,8 @@ def over_limit(blocked_at):
         st.rerun()
 
 
+st.set_page_config(page_title="Channel Fetch")
+
 # Session state initialization
 host, port, password, openai_key, yt_key = get_credentials()
 
@@ -199,7 +201,6 @@ if "last_active" not in st.session_state:
     st.session_state.last_active = time.time()
 if "agent" not in st.session_state:
     load_dotenv()
-    # api_key = os.environ.get("YT_API_KEY")
     st.session_state.agent = ac.YTNavigatorAgent("", openai_key, yt_key)
 if "controllo" not in st.session_state:
     st.session_state.controllo = False
@@ -215,8 +216,7 @@ default_db_params = {
                      "last_active": time.time(),
                      "msg_count": 0,
                      "block": -1,
-                     "auth": 1,
-                     "first_login": 0
+                     "auth": 1
                      }
 
 
@@ -229,7 +229,7 @@ if not st.user.is_logged_in:
         r = create_connection(host, port, password)
         st.login("google")     
         st.stop()
-elif st.user.is_logged_in and (time.time() - st.user.iat) > 160:
+elif st.user.is_logged_in and (time.time() - st.user.iat) > 3600:
     st.logout()
 else:  # logged in
 
@@ -240,11 +240,11 @@ else:  # logged in
         if not user_in_db:
             r.hset(st.user.email, mapping=default_db_params)
             r.rpush(st.user.email+":memo", json.dumps({"content": [{"type": "text", "text": "I am an agent that helps you find YouTube channels"}], "role":"assistant"}))
-            r.expire(st.user.email, 160)
-            r.expire(st.user.email+":memo", 160)
+            r.expire(st.user.email, 3600)
+            r.expire(st.user.email+":memo", 3600)
 
         inactive = time.time() - st.session_state.last_active
-        if inactive > 900:
+        if inactive > 3600:
             clean_session()
             st.rerun()
 
