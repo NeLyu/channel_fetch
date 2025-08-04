@@ -37,14 +37,13 @@ def captcha_control():
     st.html("""<div style="text-align: justify;">
             <strong>Tired of endless scrolling on YouTube? Let ChannelFetch come into play!</strong>
 
-            <p>
-            With Channel Fetch, you can:<br>
-            1. Get a YouTube channels selection with a summary. Try asking "Find channels about traveling".<br>
-            2. Get quick overviews of a channel's content from video titles, for example, "What is this channel about?"<br>
-            3. Run regular searches like "video tips for baking"<br>
-            4. Ask a model simple questions in chat format
-            </p>
-
+            <p>With Channel Fetch, you can:</p>
+            <ol>
+                <li>💬 Get a YouTube channels selection with a summary. Try asking "Find channels about traveling".</li>
+                <li>💬 Get quick overviews of a channel's content from video titles, for example, "What is this channel about?"</li>
+                <li>💬 Run regular searches like "video tips for baking"</li>
+                <li>💬 Ask a model simple questions in chat format</li>
+            </ol>
 
             <p>
             ChannelFetch uses OpenAI models and the YouTube Data API to find channels that match your interests, 
