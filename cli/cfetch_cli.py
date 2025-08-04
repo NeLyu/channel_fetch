@@ -9,9 +9,9 @@ import sys
 
 def main():
     load_dotenv()
-    api_key = os.environ.get("YT_API_KEY")
-    agent = ac.YTNavigatorAgent("", api_key)
-    youtube = yt.build_youtube_client(api_key)
+    openai_key = os.environ.get("OPENAI_API_KEY")
+    yt_key = os.environ.get("YT_API_KEY")
+    agent = ac.YTNavigatorAgent("", openai_key, yt_key)
 
     while True:
         query = input("User: ")
