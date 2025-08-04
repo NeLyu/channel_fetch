@@ -1,17 +1,18 @@
-import agent.agent_core as ac
-import streamlit as st
-import redis
-
-from dotenv import load_dotenv
-import os, json
-from pprint import pprint
+import os
+import json
+import random
+import string
+import time
 from datetime import datetime
+
+import redis
+import streamlit as st
+from captcha.image import ImageCaptcha
+from dotenv import load_dotenv
 from streamlit_autorefresh import st_autorefresh
 
-from captcha.image import ImageCaptcha
-import random, string
-from time import time
-import time
+import agent.agent_core as ac
+
 
 
 
@@ -37,9 +38,11 @@ def captcha_control():
             <strong>Tired of endless scrolling on YouTube? Let ChannelFetch come into play!</strong>
 
             <p>
-            Just tell it what you're looking for, for example, "Can you find channels about traveling?" or 
-            “I need beginner tips for baking, any good channels?” You can even ask, “What is this channel about?” 
-            and get an overview based on the titles of the videos posted there.
+            With Channel Fetch, you can:
+            1. Get a YouTube channels selection with a summary. Try asking "Find channels about traveling".
+            2. Get quick overviews of a channel's content from video titles, for example, "What is this channel about?"
+            3. Run regular searches like "video tips for baking"
+            4. Ask a model simple questions in chat format
             </p>
 
             <p>
@@ -139,7 +142,6 @@ def chat(r, openai_key, yt_key):
             else:
                 f_name = func.name
                 msg_count = r.hget(st.user.email, "msg_count")
-                print(msg_count)
                 r.hset(st.user.email, mapping={"msg_count": int(msg_count)+1})
             
             f = st.session_state.agent.functions_registry()[f_name]
@@ -150,12 +152,10 @@ def chat(r, openai_key, yt_key):
                 answer = f(st.session_state.agent.query)  
 
             r.rpush(st.user.email+":memo", json.dumps(st.session_state.agent.make_text_msg("assistant", answer)))
-            print("PUSHED")
             st.rerun()
 
     elif memory[-1]["role"] == "assistant":
         if user_query:
-            print("USER QUERY", user_query)
             st.session_state.last_active = time.time() # TO REDIS
             st.session_state.agent.query = user_query
             message = st.session_state.agent.make_text_msg("user", st.session_state.agent.query)
