@@ -38,7 +38,7 @@ def captcha_control():
             <strong>Tired of endless scrolling on YouTube? Let ChannelFetch come into play!</strong>
 
             <p>With Channel Fetch, you can:</p>
-            <ul>
+            <ul style="list-style: none; padding-left: 0; margin-left: 0;">
                 <li>💬 Get a YouTube channels selection with a summary. Try asking "Find channels about traveling".</li>
                 <li>💬 Get quick overviews of a channel's content from video titles, for example, "What is this channel about?"</li>
                 <li>💬 Run regular searches like "video tips for baking"</li>
