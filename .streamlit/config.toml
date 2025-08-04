@@ -1,7 +1,7 @@
 [theme]
 base = "dark"
 # backgroundColor = "#DCD0A8"
-baseFontSize = 16
+baseFontSize = 14
 showWidgetBorder = true
 showSidebarBorder = true
 
