@@ -12,7 +12,7 @@ It does not only showing trending videos but gives you info about the channel it
 For example, if you are looking for channels about yoga, the agent will tell you whether the video comes from a source with a focus on traditional practices or on alternative modern approaches.
 It provides you with links to the relevant channels and gives a short summary based on their descriptions.
 
-### 💡 What you can do with Channel Fetch:
+### 💬 What you can do with Channel Fetch:
 - Get a YouTube channels selection with a summary. Try asking "Find channels about traveling".
 - Get quick overviews of a channel's content from video titles, for example, "What is this channel about?"
 - Run regular searches like "video tips for baking"
@@ -46,7 +46,7 @@ pip install -r requirements.txt
 
 You can try ChannelFetch in two ways:
 
-### 1. 🌐 Web App (recommended): 
+### 1. 💬 Web App: 
 Run it instantly on Streamlit → [ChannelFetch on Streamlit](https://channel-fetch.streamlit.app/)
 
 ### 2. Command Line Interface (CLI):
