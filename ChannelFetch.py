@@ -23,9 +23,6 @@ def verify_captcha():
         col2.empty()
         st.session_state['controllo'] = True
         st.success("Verification successful. Welcome!")
-        time.sleep(1)
-        st.rerun()
-        st.stop()
     else:
         st.session_state['controllo'] = False
         st.error("🚨 Oops, wrong answer, try again")
