@@ -189,6 +189,7 @@ def over_limit(blocked_at):
 def logout_button():
     if st.button("Log Out"):
         st.logout()
+        st.rerun()
 
 def clear_history_button(r):
     if st.button("Clear Chat History"):
