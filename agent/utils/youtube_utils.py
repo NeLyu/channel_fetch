@@ -96,9 +96,12 @@ def remove_duplicate_channels(sorted_channels):
 
 def add_video_title_info(video_titles, sorted_channels):
     for el in sorted_channels:
-        channel_title = el["snippet"]["title"]
-        el["snippet"]["video_title"] = video_titles[channel_title][0]
-        el["snippet"]["videoId"] = video_titles[channel_title][1]
+        try:
+            channel_title = el["snippet"]["title"]
+            el["snippet"]["video_title"] = video_titles[channel_title][0]
+            el["snippet"]["videoId"] = video_titles[channel_title][1]
+        except KeyError:
+            pass
     return sorted_channels
 
 
@@ -117,7 +120,7 @@ def get_video_titles(channel_id, youtube, max_results=15):
     videos = []
     for item in response.get("items", []):
         video_id = item["id"]["videoId"]
-        title = item["snippet"]["title"]
+        title = item["snippet"]["title"].strip()
         published = item["snippet"]["publishedAt"]
         videos.append({
             "title": title,
