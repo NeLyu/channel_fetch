@@ -18,10 +18,10 @@ Examples:
 
     Input: "Give me top channels about ultra running for beginners"
     Topic: "ultra running for beginners"
-    Assessment: specific enough — no additional phrases needed
+    Assessment: specific enough — no additional phrases neededыщьуе
 
 2)  Input: "Channels about parenting"
-    Topic: "nutrition"
+    Topic: "parenting"
     Assessment: too vague, needs additional phrases
     Suggested phrases: "psycology and parenting", "best parenting tips", "how to become a good parent"
 
