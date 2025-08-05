@@ -190,6 +190,17 @@ def over_limit(blocked_at):
         clean_session()
         st.rerun()
 
+def logout_button():
+    if st.button("Log Out"):
+        st.logout()
+        st.rerun()
+
+def clear_history_button(r):
+    if st.button("Clear Chat History"):
+        r.ltrim(st.user.email + ":memo", 1, 0)
+        r.rpush(st.user.email+":memo", json.dumps({"content": [{"type": "text", "text": "I am an agent that helps you find YouTube channels"}], "role":"assistant"}))
+        st.success("Chat history cleared.")
+        st.rerun()
 
 st.set_page_config(page_title="Channel Fetch")
 
@@ -231,8 +242,10 @@ if not st.user.is_logged_in:
 elif st.user.is_logged_in and (time.time() - st.user.iat) > 3600:
     st.logout()
 else:  # logged in
-
     r = create_connection(host, port, password)
+    with st.sidebar:
+        clear_history_button(r)
+        logout_button()
     try:
         user_in_db = r.hgetall(st.user.email)
 
