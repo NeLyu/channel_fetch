@@ -22,7 +22,6 @@ def verify_captcha():
         col1.empty()
         col2.empty()
         st.session_state['controllo'] = True
-        st.success("Verification successful. Welcome!")
     else:
         st.session_state['controllo'] = False
         st.error("🚨 Oops, wrong answer, try again")
