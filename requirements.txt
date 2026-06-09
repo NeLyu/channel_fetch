@@ -1,4 +1,6 @@
-streamlit>=1.50.0
+streamlit[auth]==1.56.0
+Authlib==1.6.11
+httpx
 google-api-python-client
 openai
 dotenv
