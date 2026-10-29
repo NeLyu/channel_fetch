@@ -217,12 +217,14 @@ class YTNavigatorAgent:
         response = client.chat.completions.create(
             model="gpt-5.6-sol",
             messages=messages,
-            functions=functions,
-            function_call="auto",
+            tools=[{"type": "function", "function": f} for f in functions],
+            tool_choice="auto"
         )
 
-        tool_call = response.choices[0].message.function_call
-        return tool_call
+        tool_calls = response.choices[0].message.tool_calls
+        if tool_calls:
+            return tool_calls[0].function
+        return None
 
     def search_videos_by_key_phrase(self, query):
         video_results, video_titles = yt.top_videos_by_keyword(self.youtube, query, 10, order="rating")
