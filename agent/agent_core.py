@@ -218,7 +218,8 @@ class YTNavigatorAgent:
             model="gpt-5.6-sol",
             messages=messages,
             tools=[{"type": "function", "function": f} for f in functions],
-            tool_choice="auto"
+            tool_choice="auto",
+            reasoning_effort="none",
         )
 
         tool_calls = response.choices[0].message.tool_calls
