@@ -215,7 +215,7 @@ class YTNavigatorAgent:
         client = OpenAI(api_key=self.openai_key)
 
         response = client.chat.completions.create(
-            model="gpt-4-0613",
+            model="gpt-5.6-sol",
             messages=messages,
             functions=functions,
             function_call="auto",
